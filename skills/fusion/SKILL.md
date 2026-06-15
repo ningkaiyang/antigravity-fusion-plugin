@@ -27,8 +27,6 @@ Analyze the user's prompt to determine which workflow to run:
 FUSION_SCRIPT=""
 if [ -n "$ANTIGRAVITY_PLUGIN_ROOT" ] && [ -f "$ANTIGRAVITY_PLUGIN_ROOT/scripts/fusion.mjs" ]; then
   FUSION_SCRIPT="$ANTIGRAVITY_PLUGIN_ROOT/scripts/fusion.mjs"
-elif [ -n "$CLAUDE_PLUGIN_ROOT" ] && [ -f "$CLAUDE_PLUGIN_ROOT/scripts/fusion.mjs" ]; then
-  FUSION_SCRIPT="$CLAUDE_PLUGIN_ROOT/scripts/fusion.mjs"
 elif [ -f "./scripts/fusion.mjs" ]; then
   FUSION_SCRIPT="./scripts/fusion.mjs"
 else
@@ -92,8 +90,6 @@ Follow these steps in order:
 FUSION_SCRIPT=""
 if [ -n "$ANTIGRAVITY_PLUGIN_ROOT" ] && [ -f "$ANTIGRAVITY_PLUGIN_ROOT/scripts/fusion.mjs" ]; then
   FUSION_SCRIPT="$ANTIGRAVITY_PLUGIN_ROOT/scripts/fusion.mjs"
-elif [ -n "$CLAUDE_PLUGIN_ROOT" ] && [ -f "$CLAUDE_PLUGIN_ROOT/scripts/fusion.mjs" ]; then
-  FUSION_SCRIPT="$CLAUDE_PLUGIN_ROOT/scripts/fusion.mjs"
 elif [ -f "./scripts/fusion.mjs" ]; then
   FUSION_SCRIPT="./scripts/fusion.mjs"
 else

@@ -66,7 +66,7 @@ Easiest way to change settings is the `config` command:
 
 ```bash
 /fusion:config show                       # Show configured models
-/fusion:config set Gemini 3.5 Flash (High), Claude Sonnet 4.6 (Thinking) # Overwrite preferences
+/fusion:config set Gemini 3.5 Flash (High), Gemini 3.1 Pro (High) # Overwrite preferences
 ```
 
 Or edit the file directly (`~/.fusion_panel_prefs.txt`):
@@ -74,8 +74,11 @@ Or edit the file directly (`~/.fusion_panel_prefs.txt`):
 ```text
 Gemini 3.5 Flash (High)
 Gemini 3.1 Pro (High)
-Claude Sonnet 4.6 (Thinking)
+Gemini 3.5 Flash (Medium)
 ```
+
+> [!NOTE]
+> Any model supported by your CLI environment (such as Claude Sonnet, Opus, or GPT-OSS models returned by `agy models`) can be configured as panel advisors.
 
 ---
 
@@ -84,7 +87,7 @@ Claude Sonnet 4.6 (Thinking)
 <details>
 <summary>▶️ Who is the judge model and how can I change it?</summary>
 <br>
-The Judge Model is simply the model you currently have active in your CLI window when you run the `/fusion` command. To change the judge model, just switch your active model in the CLI before invoking fusion. For example, if you want Claude to judge Gemini and GPT, just select Claude as your active CLI model!
+The Judge Model is simply the model you currently have active in your CLI window when you run the `/fusion` command. To change the judge model, just switch your active model in the CLI before invoking fusion. For example, if you want Gemini 3.1 Pro (High) to judge Gemini 3.5 Flash, just select Gemini 3.1 Pro (High) as your active CLI model!
 </details>
 
 <details>

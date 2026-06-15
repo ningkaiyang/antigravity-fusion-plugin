@@ -32,7 +32,7 @@ agy plugin install ./antigravity-fusion-plugin
 *(If testing locally, you can also link it by cloning this repository into your `~/.antigravity/plugins/` directory).*
 
 ## 📖 Usage
-1. Type `/models` in the Antigravity CLI.
+1. Type `/model` in the Antigravity CLI.
 2. Select **🧠 Fusion Engine (Multi-Model Panel)** from the dropdown.
 3. Use the interactive checklist to select which models to include in your panel. You can select built-in models or add Custom APIs!
 4. Type your prompt in the chat (e.g., *"Vibe code a Solarpunk game engine"*).

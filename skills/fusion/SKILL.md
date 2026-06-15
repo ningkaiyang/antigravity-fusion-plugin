@@ -30,7 +30,7 @@ if [ -n "$ANTIGRAVITY_PLUGIN_ROOT" ] && [ -f "$ANTIGRAVITY_PLUGIN_ROOT/scripts/f
 elif [ -f "./scripts/fusion.mjs" ]; then
   FUSION_SCRIPT="./scripts/fusion.mjs"
 else
-  for dir in "$HOME/.antigravity/plugins/antigravity-fusion-plugin" "$HOME/.antigravity/plugins/fusion"; do
+  for dir in "$HOME/.gemini/config/plugins/fusion" "$HOME/.gemini/config/plugins/antigravity-fusion-plugin" "$HOME/.antigravity/plugins/fusion" "$HOME/.antigravity/plugins/antigravity-fusion-plugin"; do
     if [ -f "$dir/scripts/fusion.mjs" ]; then
       FUSION_SCRIPT="$dir/scripts/fusion.mjs"
       break
@@ -93,7 +93,7 @@ if [ -n "$ANTIGRAVITY_PLUGIN_ROOT" ] && [ -f "$ANTIGRAVITY_PLUGIN_ROOT/scripts/f
 elif [ -f "./scripts/fusion.mjs" ]; then
   FUSION_SCRIPT="./scripts/fusion.mjs"
 else
-  for dir in "$HOME/.antigravity/plugins/antigravity-fusion-plugin" "$HOME/.antigravity/plugins/fusion"; do
+  for dir in "$HOME/.gemini/config/plugins/fusion" "$HOME/.gemini/config/plugins/antigravity-fusion-plugin" "$HOME/.antigravity/plugins/fusion" "$HOME/.antigravity/plugins/antigravity-fusion-plugin"; do
     if [ -f "$dir/scripts/fusion.mjs" ]; then
       FUSION_SCRIPT="$dir/scripts/fusion.mjs"
       break

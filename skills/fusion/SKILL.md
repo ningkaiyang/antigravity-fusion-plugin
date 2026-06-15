@@ -109,7 +109,12 @@ node "$FUSION_SCRIPT" fuse --cwd "$(pwd)" --prompt-file /tmp/fusion-prompt-XXXX.
 
 If the panel is empty or all models error out, continue with your independent draft and inform the user they can run `/fusion setup`.
 
-**3. Judge & synthesize.** Now read **all submissions** — your own draft file from step 1, and the panel outputs — and apply the **Fusion Synthesis (Judge Contract)** defined at the bottom of this file to fuse them. Save this synthesis directly to `synthesis.md` in the current directory.
+**3. Judge & synthesize.** Read **all submissions**. 
+
+> [!IMPORTANT]
+> Because parallel model outputs can be very large, the system notification showing the command's completion may truncate the output. **You must always read the full task log file using the `view_file` tool** (using the log path printed in the system notification, e.g. `file:///.../tasks/task-XX.log`) to review the complete advisor answers before applying the **Fusion Synthesis (Judge Contract)**.
+
+Fulfill the contract and save the final synthesis directly to `synthesis.md` in the current directory.
 
 **4. Present & act.** Output the **Telemetry block**, a short summary, and a follow-up question. Format exactly like this:
 

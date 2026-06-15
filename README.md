@@ -4,6 +4,8 @@ Multi-model fusion for Antigravity, Claude Code, and Codex CLI. Fan out your pro
 
 ![Surpassing Frontier Performance with Fusion](https://openrouter.ai/blog/images/blog/fusion-benchmark.jpg)
 
+[📸 View an Example Run in the CLI](IMG_20260615_185839.jpg)
+
 ## 🌟 Features
 - **Skill-based invocation**: Just type `/fusion` followed by your prompt. Works universally across CLIs.
 - **Cross-CLI Support**: Seamlessly works inside Antigravity, Claude Code, and Codex CLI.

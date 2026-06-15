@@ -24,14 +24,16 @@ Check if `~/.fusion_panel_prefs.txt` exists and has content.
 ```
 *(Replace `[Model N]` with the actual models from the prefs file)*
 
-### 1. Panel Fan-Out (Dynamic Subagents)
-Spawn a **separate subagent for each model in the panel**. For each subagent:
-- Pass the exact user prompt.
-- Instruct it to use `web_search` and `browser` tools independently to research its answer.
-- Tell it which model perspective it represents (e.g., "You are responding as the Claude 3.5 Sonnet perspective").
+### 1. Panel Fan-Out (True Multi-Model Subprocesses)
+To achieve true heterogeneous multi-model fusion, do NOT use your native `invoke_subagent` tool (as that restricts you to your current active model).
+Instead, use your bash/terminal execution tool to spawn parallel subprocesses of the host CLI tool, passing a different model flag to each.
 
-### 2. Wait & Collect
-Wait until all subagents have returned their final output. Note any timeouts or failures.
+1. Detect your host CLI (e.g., run `which agy` or `which claude` to see what is installed).
+2. For each model in the panel, run a background terminal command:
+   - If Antigravity (`agy`): `agy --model "[Model Name]" --print "[User Prompt]" > /tmp/fusion_[ModelSafeName].txt &`
+   - If Claude Code (`claude`): `claude -m "[Model Name]" -p "[User Prompt]" > /tmp/fusion_[ModelSafeName].txt &`
+3. Wait for all these subprocesses to complete.
+4. Read the resulting temporary files to collect the responses from each distinct model.
 
 ### 3. Judge Analysis & Synthesis
 Analyze ALL independent responses together to find:

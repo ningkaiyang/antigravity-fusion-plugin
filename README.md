@@ -100,5 +100,5 @@ To keep your chat clean, the full synthesis is not printed in the terminal. Inst
 <details>
 <summary>▶️ Does this actually call different API models under the hood?</summary>
 <br>
-Currently, no. CLI tools like Antigravity, Claude Code, and Codex inherit the parent model for all subagents. This plugin uses a highly effective AI technique called **Persona-Driven Self-Consistency** (or Multi-Agent Debate). It spawns multiple instances of your *current* active model, assigns them different personas (forcing them down parallel reasoning paths), and synthesizes the results. This is mathematically proven to drastically reduce hallucinations and improve accuracy compared to single-shot generation, achieving the same "God-tier" synthesis effect!
+Yes! To bypass the limitation of CLIs inheriting parent models, the Fusion skill acts as a meta-orchestrator. Instead of spawning native subagents, the Judge model dynamically spawns completely detached background bash processes of your host CLI (e.g. `agy --model [X]` or `claude -m [X]`). This forces the CLI to spin up entirely separate, fully-agentic instances hitting completely different API endpoints, waits for them to finish, and synthesizes their output files.
 </details>

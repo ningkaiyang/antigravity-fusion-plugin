@@ -94,5 +94,5 @@ Yes! Because Fusion is purely a prompt-and-skill-driven workflow, it works unive
 <details>
 <summary>▶️ Where does the final synthesized answer go?</summary>
 <br>
-To keep your chat clean, the final synthesis is not printed in the terminal. Instead, the agent saves it to a `synthesis.md` file in your current working directory. The chat will only show you the spinning banner and the final telemetry table.
+To keep your chat clean, the full synthesis is not printed in the terminal. Instead, the agent saves it to a `synthesis.md` file in your current working directory. In the chat, you will see the spinning banner, the final telemetry table, a brief 2-3 sentence summary of the findings, and a prompt asking if you'd like to read the file or implement the results directly.
 </details>

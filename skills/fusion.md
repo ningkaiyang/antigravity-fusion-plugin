@@ -43,7 +43,7 @@ Then, write the definitive, final synthesis grounded in the analysis.
 **Save this final synthesis to a file named `synthesis.md` in the current directory.** Do NOT print the full synthesis in the chat.
 
 ### 4. Telemetry & Diagnostics
-In the chat, output ONLY the Telemetry block and a short confirmation. Format exactly like this:
+In the chat, output ONLY the Telemetry block, a short summary, and a follow-up question. Format exactly like this:
 
 ---
 **⚙️ Fusion Telemetry**
@@ -56,7 +56,10 @@ In the chat, output ONLY the Telemetry block and a short confirmation. Format ex
 | Judge Analysis | ✅ | Consensus on N points, M contradictions |
 | Final Synthesis | ✅ | Grounded in 3/3 responses |
 
-**The final synthesis has been saved to `synthesis.md`.** Please open it to review the converged results.
+**The final synthesis has been saved to `synthesis.md`.** 
+*[Provide a 2-3 sentence high-level summary of the final results here]*
+
+**Would you like me to pull up and read the full `synthesis.md` for you, or should I go ahead and implement these results?**
 ---
 
 Finally, run a bash command to silently append a timestamped one-line summary to `~/.fusion_telemetry.log`, and run `tail -n 5 ~/.fusion_telemetry.log > /tmp/telemetry.tmp && mv /tmp/telemetry.tmp ~/.fusion_telemetry.log`.

@@ -1,8 +1,11 @@
 # Universal Fusion Plugin
 
 Multi-model fusion for Antigravity, Claude Code, and Codex CLI. Fan out your prompt to a panel of models, synthesize the best answer, get per-model telemetry, and receive a compiled `synthesis.md` file. Inspired by [OpenRouter's Fusion](https://openrouter.ai/docs/guides/features/plugins/fusion).
+> *"The more tokens you throw at SOTA models, the better the answer.*
+> *Cast your prompt into a solitary mind, and you receive a mere response.*
+> *But weave a million tokens across a chorus of State-of-the-Art intellects, and you uncover the truth."*
 
-![Surpassing Frontier Performance with Fusion](https://openrouter.ai/blog/images/blog/fusion-benchmark.jpg)
+![DRACO benchmark scores](https://openrouter.ai/blog/images/blog/fusion-benchmark-chart.png)
 
 [📸 View an Example Run in the CLI](IMG_20260615_185839.jpg)
 
@@ -18,8 +21,6 @@ Multi-model fusion for Antigravity, Claude Code, and Codex CLI. Fan out your pro
 ## 📊 Why Fusion Works
 
 OpenRouter's DRACO benchmark proved that panels of models consistently outperform individual models — even budget panels beat frontier models.
-
-![DRACO benchmark scores](https://openrouter.ai/blog/images/blog/fusion-benchmark-chart.png)
 
 ## 🚀 Installation
 

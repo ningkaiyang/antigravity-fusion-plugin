@@ -1,12 +1,84 @@
 ---
 name: fusion
-description: Ask multiple models in parallel, synthesize one fused answer, then act on it
+description: Multi-model fusion panel. Run '/fusion [prompt]', '/fusion setup', or '/fusion config' to query, initialize, or configure your local model panel.
 ---
 # Fusion Orchestration Skill
 
-You are running a multi-model fusion for the user's prompt. You are the **judge and the actor**. The panel models are **read-only advisors** — only you write to the workspace or run side-effecting commands.
+You are the Fusion Orchestrator. The user can invoke you with various subcommands or tasks.
 
-The task / question is the user's prompt. If the task is empty, ask the user what they want fused, then stop.
+## 🧭 Subcommand Routing
+
+Analyze the user's prompt to determine which workflow to run:
+
+1. **Setup** (e.g., user typed `setup`, `init`, or asked to initialize the panel):
+   Follow the instructions under **## 🔧 Setup Workflow**.
+2. **Config** (e.g., user typed `config`, `config show`, `config set <models>`, or asked to view/change panel settings):
+   Follow the instructions under **## ⚙️ Configuration Workflow**.
+3. **Fuse** (Default):
+   If the user provided a general task, question, or code query to solve, follow the instructions under **## 🧠 Fusion Workflow**.
+
+---
+
+## 🔧 Setup Workflow
+
+1. Run the setup check using the background Node script to get a JSON report:
+
+```bash
+FUSION_SCRIPT=""
+if [ -n "$ANTIGRAVITY_PLUGIN_ROOT" ] && [ -f "$ANTIGRAVITY_PLUGIN_ROOT/scripts/fusion.mjs" ]; then
+  FUSION_SCRIPT="$ANTIGRAVITY_PLUGIN_ROOT/scripts/fusion.mjs"
+elif [ -n "$CLAUDE_PLUGIN_ROOT" ] && [ -f "$CLAUDE_PLUGIN_ROOT/scripts/fusion.mjs" ]; then
+  FUSION_SCRIPT="$CLAUDE_PLUGIN_ROOT/scripts/fusion.mjs"
+elif [ -f "./scripts/fusion.mjs" ]; then
+  FUSION_SCRIPT="./scripts/fusion.mjs"
+else
+  for dir in "$HOME/.antigravity/plugins/antigravity-fusion-plugin" "$HOME/.antigravity/plugins/fusion"; do
+    if [ -f "$dir/scripts/fusion.mjs" ]; then
+      FUSION_SCRIPT="$dir/scripts/fusion.mjs"
+      break
+    fi
+  done
+fi
+if [ -z "$FUSION_SCRIPT" ]; then
+  echo "Error: fusion.mjs not found!"
+  exit 1
+fi
+node "$FUSION_SCRIPT" setup --json
+```
+
+2. Parse the JSON output and present the setup report:
+   - If preferences do not exist (`prefsExists: false`), ask the user:
+     > *"Welcome to Fusion! Since this is your first time, what models do you want to include in your panel? Please select from the available models in your CLI..."*
+     Save their choices (one per line) to `~/.fusion_panel_prefs.txt`.
+   - If preferences exist, print a clean markdown table showing the currently configured panel models and list the other available models they can configure.
+   - Inform the user that they can change models anytime by editing `~/.fusion_panel_prefs.txt` or running `/fusion config set <models>`.
+
+---
+
+## ⚙️ Configuration Workflow
+
+1. Check the arguments provided after the `config` keyword:
+   - **No args, or `show`**:
+     Run this bash command to show the current panel:
+     ```bash
+     if [ -f "$HOME/.fusion_panel_prefs.txt" ]; then
+       echo "Current Fusion Panel Models:"
+       cat "$HOME/.fusion_panel_prefs.txt" | sed 's/^/  - /'
+     else
+       echo "No models configured. Run '/fusion setup' to configure them."
+     fi
+     ```
+   - **`set <models>`** (where models are comma-separated or space-separated):
+     Write the models (one per line) to `~/.fusion_panel_prefs.txt` and print a success message showing the new configuration. E.g.:
+     ```bash
+     echo -e "Gemini 3.5 Flash (Medium)\nGemini 3.5 Flash (High)" > ~/.fusion_panel_prefs.txt
+     ```
+
+---
+
+## 🧠 Fusion Workflow
+
+You are running a multi-model fusion for this request. You are the **judge and the actor**. The panel models are **read-only advisors** — only you write to the workspace or run side-effecting commands.
 
 Follow these steps in order:
 
@@ -39,7 +111,7 @@ fi
 node "$FUSION_SCRIPT" fuse --cwd "$(pwd)" --prompt-file /tmp/fusion-prompt-XXXX.txt
 ```
 
-If the panel is empty or all models error out, continue with your independent draft and inform the user they can run `/fusion:setup`.
+If the panel is empty or all models error out, continue with your independent draft and inform the user they can run `/fusion setup`.
 
 **3. Judge & synthesize.** Now read **all submissions** — your own draft file from step 1, and the panel outputs — and apply the **Fusion Synthesis (Judge Contract)** defined at the bottom of this file to fuse them. Save this synthesis directly to `synthesis.md` in the current directory.
 

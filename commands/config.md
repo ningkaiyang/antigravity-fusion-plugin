@@ -1,33 +1,28 @@
 ---
-description: View or change gavel settings (model, timeout, panel) in the user or project config file
-argument-hint: "[show | set <key> <value> | unset <key>] [--project]"
-allowed-tools: Bash(node:*)
+description: View or change fusion panel settings
+argument-hint: "[show | set <models>]"
 ---
 
-Manage gavel settings via the runner's `config` subcommand. Precedence (low→high):
-`~/.gavel/config.json` < `./.gavel.json` < env vars < CLI flags. By default writes go to the **user**
-file (`~/.gavel/config.json`, all projects); add `--project` to write `./.gavel.json` (this repo only).
-
-Keys: `timeout` (seconds), `panel` (comma-separated provider list), `codex.model`, `codex.enabled`,
-`gemini.model`, `gemini.enabled`.
+Manage your fusion panel models. Preference file: `~/.fusion_panel_prefs.txt`.
 
 Raw arguments:
 $ARGUMENTS
 
-Decide the action from the arguments, then run the matching command (pass each token as a separate,
-quoted shell argument — never interpolate the value into a larger string):
+Decide the action from the arguments:
 
-- **No args, or `show`** → `GAVEL_SCRIPT="" && if [ -n "$CLAUDE_PLUGIN_ROOT" ]; then GAVEL_SCRIPT="$CLAUDE_PLUGIN_ROOT/scripts/gavel.mjs"; else for d in "$HOME/.antigravity/plugins/antigravity-fusion-plugin" "$HOME/.antigravity/plugins/gavel" "$HOME/.antigravity/plugins/openrouter-fusion-local" "/root/antigravity-fusion-plugin"; do [ -f "$d/scripts/gavel.mjs" ] && GAVEL_SCRIPT="$d/scripts/gavel.mjs" && break; done; fi && node "$GAVEL_SCRIPT" config show`
-  (add `--json` if the user wants machine output). This prints the *effective* settings, which file
-  each comes from, and whether each model is a falling-back default or a pinned model.
-- **`set <key> <value>`** → `GAVEL_SCRIPT="" && if [ -n "$CLAUDE_PLUGIN_ROOT" ]; then GAVEL_SCRIPT="$CLAUDE_PLUGIN_ROOT/scripts/gavel.mjs"; else for d in "$HOME/.antigravity/plugins/antigravity-fusion-plugin" "$HOME/.antigravity/plugins/gavel" "$HOME/.antigravity/plugins/openrouter-fusion-local" "/root/antigravity-fusion-plugin"; do [ -f "$d/scripts/gavel.mjs" ] && GAVEL_SCRIPT="$d/scripts/gavel.mjs" && break; done; fi && node "$GAVEL_SCRIPT" config set <key> <value>`
-  (append `--project` if the user said this repo / project only).
-- **`unset <key>`** → `GAVEL_SCRIPT="" && if [ -n "$CLAUDE_PLUGIN_ROOT" ]; then GAVEL_SCRIPT="$CLAUDE_PLUGIN_ROOT/scripts/gavel.mjs"; else for d in "$HOME/.antigravity/plugins/antigravity-fusion-plugin" "$HOME/.antigravity/plugins/gavel" "$HOME/.antigravity/plugins/openrouter-fusion-local" "/root/antigravity-fusion-plugin"; do [ -f "$d/scripts/gavel.mjs" ] && GAVEL_SCRIPT="$d/scripts/gavel.mjs" && break; done; fi && node "$GAVEL_SCRIPT" config unset <key>` (`--project` as above).
-
-The runner validates keys and values and exits non-zero with a clear message on bad input — relay that
-message; do not retry with a guessed value. After a successful change, show the new effective config by
-running `config show` so the user sees the result.
-
-Note: pinning a model (`set <provider>.model …`) opts that provider out of the automatic fallback to
-the CLI's own default — so only pin a model the account can actually use. Leaving it unset keeps the
-preferred default (`gpt-5.5-pro` / `gemini-3.1-pro`) with auto-fallback. Relay the runner's reminder.
+- **No args, or `show`**:
+  Run this command to show the current panel:
+  ```bash
+  if [ -f "$HOME/.fusion_panel_prefs.txt" ]; then
+    echo "Current Fusion Panel Models:"
+    cat "$HOME/.fusion_panel_prefs.txt" | sed 's/^/  - /'
+  else
+    echo "No models configured. Run /fusion:setup to configure them."
+  fi
+  ```
+- **`set <models>`** (where models are comma-separated or space-separated):
+  Extract the models from the argument, and write them (one per line) to `~/.fusion_panel_prefs.txt`.
+  ```bash
+  # Example: echo -e "Gemini 3.5 Flash (High)\nClaude Sonnet 4.6 (Thinking)" > ~/.fusion_panel_prefs.txt
+  ```
+  Then print a success message and show the new configuration.

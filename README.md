@@ -25,7 +25,8 @@ A budget panel consisting of lightweight models (e.g., Gemini 3 Flash + Kimi K2.
 Install this plugin directly via the Antigravity CLI using the GitHub repository:
 
 ```bash
-agy plugin install ProxyAyush/antigravity-fusion-plugin
+git clone https://github.com/ProxyAyush/antigravity-fusion-plugin.git
+agy plugin install ./antigravity-fusion-plugin
 ```
 
 *(If testing locally, you can also link it by cloning this repository into your `~/.antigravity/plugins/` directory).*

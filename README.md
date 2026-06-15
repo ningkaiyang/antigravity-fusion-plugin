@@ -13,7 +13,7 @@ This plugin enables a Native Multi-Model Fusion Panel for the Antigravity CLI, a
 Install this plugin directly via the Antigravity CLI using the GitHub repository:
 
 ```bash
-agy plugin install your-username/antigravity-fusion-plugin
+agy plugin install ProxyAyush/antigravity-fusion-plugin
 ```
 
 *(If testing locally, you can also link it by cloning this repository into your `~/.antigravity/plugins/` directory).*

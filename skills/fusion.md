@@ -16,7 +16,7 @@ Spawn an asynchronous subagent for **each** model listed in the preferences file
 - Explicitly instruct each subagent to use the `web_search` and `browser` tools independently to research their answer.
 
 ### 2. Wait & Collect
-Monitor the background tasks. Wait until all subagents have returned their final output.
+Monitor the background tasks. Wait until all subagents have returned their final output. Track how many subagents succeeded versus how many errored/timed out.
 
 ### 3. Judge Analysis
 Analyze the independent responses. Output a structured JSON block (hidden from the user UI if possible) containing:
@@ -27,3 +27,15 @@ Analyze the independent responses. Output a structured JSON block (hidden from t
 
 ### 4. Final Synthesis
 Grounding your response entirely in your Judge Analysis, output the definitive, final answer to the user's prompt. Do not narrate your multi-agent process; present the final answer as if you were a single, highly intelligent model.
+
+### 5. Telemetry & Diagnostics
+At the very end of your response, append a **Fusion Telemetry** block to show the user the health of the fusion run. Use ✅ for success and ❌ for errors.
+Format exactly like this example:
+> **⚙️ Fusion Telemetry**
+> ✅ Subagents Executed (3/3 successful)
+> ✅ Judge Analysis complete
+> ✅ No execution errors
+
+If there were errors, reflect them (e.g. `❌ Subagents Executed (2/3 successful, 1 timeout)`).
+
+Finally, use your command line tool to append a timestamped one-line summary of this run's telemetry to `~/.antigravity/state/fusion_telemetry.log`. Immediately after appending, run `tail -n 5 ~/.antigravity/state/fusion_telemetry.log > /tmp/telemetry.tmp && mv /tmp/telemetry.tmp ~/.antigravity/state/fusion_telemetry.log` to ensure only the 5 most recent runs are kept.

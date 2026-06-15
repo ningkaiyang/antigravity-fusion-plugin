@@ -7,12 +7,14 @@ Run:
 
 ```bash
 FUSION_SCRIPT=""
-if [ -n "$CLAUDE_PLUGIN_ROOT" ] && [ -f "$CLAUDE_PLUGIN_ROOT/scripts/fusion.mjs" ]; then
+if [ -n "$ANTIGRAVITY_PLUGIN_ROOT" ] && [ -f "$ANTIGRAVITY_PLUGIN_ROOT/scripts/fusion.mjs" ]; then
+  FUSION_SCRIPT="$ANTIGRAVITY_PLUGIN_ROOT/scripts/fusion.mjs"
+elif [ -n "$CLAUDE_PLUGIN_ROOT" ] && [ -f "$CLAUDE_PLUGIN_ROOT/scripts/fusion.mjs" ]; then
   FUSION_SCRIPT="$CLAUDE_PLUGIN_ROOT/scripts/fusion.mjs"
 elif [ -f "./scripts/fusion.mjs" ]; then
   FUSION_SCRIPT="./scripts/fusion.mjs"
 else
-  for dir in "$HOME/.antigravity/plugins/antigravity-fusion-plugin" "$HOME/.antigravity/plugins/fusion" "$HOME/.antigravity/plugins/openrouter-fusion-local" "/root/antigravity-fusion-plugin"; do
+  for dir in "$HOME/.antigravity/plugins/antigravity-fusion-plugin" "$HOME/.antigravity/plugins/fusion"; do
     if [ -f "$dir/scripts/fusion.mjs" ]; then
       FUSION_SCRIPT="$dir/scripts/fusion.mjs"
       break

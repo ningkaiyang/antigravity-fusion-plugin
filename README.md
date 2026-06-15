@@ -1,6 +1,6 @@
 # Universal Fusion Plugin 🧠
 
-Multi-model fusion for Antigravity, Claude Code, and Codex CLI. Ask multiple models (e.g. Gemini 3.5 Flash, Gemini 3.1 Pro, Claude Sonnet, etc.) in parallel, then judge their answers into one and act on it.
+Multi-model fusion for Google Antigravity CLI. Ask multiple models (e.g. Gemini 3.5 Flash, Gemini 3.1 Pro, etc.) in parallel, then judge their answers into one and act on it.
 
 > *“The more tokens you throw at SOTA models, the better the answer.*
 > *Cast your prompt into a solitary mind, and you receive a mere response.*
@@ -22,22 +22,10 @@ Fusion is inspired by OpenRouter's [**Fusion beats Frontier**](https://openroute
 
 Because Fusion is purely prompt-and-skill-driven, you can install it into any modern agentic CLI.
 
-### For Antigravity CLI
+For Antigravity CLI:
 ```bash
-git clone https://github.com/ProxyAyush/antigravity-fusion-plugin.git
+git clone https://github.com/ningkaiyang/antigravity-fusion-plugin.git
 agy plugin install ./antigravity-fusion-plugin
-```
-
-### For Claude Code
-```bash
-/plugin marketplace add /path/to/antigravity-fusion-plugin
-/plugin install fusion@fusion
-```
-
-### For Codex CLI
-```bash
-/plugin marketplace add /path/to/antigravity-fusion-plugin
-/plugin install fusion@fusion
 ```
 
 ---
@@ -58,7 +46,7 @@ It will detect available models and help you configure your preference file: `~/
 
 | Command | What it does |
 | --- | --- |
-| `/fusion:fuse <task>` | Ask multiple models in parallel, synthesize one fused answer, then act on it. |
+| `/fusion <task>` | Ask multiple models in parallel, synthesize one fused answer, then act on it. |
 | `/fusion:setup` | Check available models in your CLI and verify preferences. |
 | `/fusion:config [show \| set <models>]` | View or change settings (model panel configuration) in your preference file. |
 
@@ -105,11 +93,6 @@ The Judge Model is simply the model you currently have active in your CLI window
 You can easily adjust settings using the `/fusion:config set` command or edit `~/.fusion_panel_prefs.txt`.
 </details>
 
-<details>
-<summary>▶️ Can this be used in other CLIs like Claude Code and Codex?</summary>
-<br>
-Yes! Fusion is fully compatible with Claude Code, Codex, and Antigravity. It registers standard slash commands and runs completely locally using standard plugin mechanisms.
-</details>
 
 <details>
 <summary>▶️ Where does the final synthesized answer go?</summary>

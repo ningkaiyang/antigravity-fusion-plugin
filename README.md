@@ -1,15 +1,17 @@
-# Antigravity Fusion Plugin
+# Universal Fusion Plugin
 
-Multi-model fusion for the Antigravity CLI. Fan out your prompt to a panel of models, synthesize the best answer, get per-model telemetry. Inspired by [OpenRouter's Fusion](https://openrouter.ai/docs/guides/features/plugins/fusion).
+Multi-model fusion for Antigravity, Claude Code, and Codex CLI. Fan out your prompt to a panel of models, synthesize the best answer, get per-model telemetry, and receive a compiled `synthesis.md` file. Inspired by [OpenRouter's Fusion](https://openrouter.ai/docs/guides/features/plugins/fusion).
 
+![Surpassing Frontier Performance with Fusion](https://openrouter.ai/blog/images/blog/fusion-benchmark.jpg)
 
 ## 🌟 Features
-- **Skill-based invocation**: Just type `use fusion` or `/fusion` followed by your prompt — no model switching needed.
-- **Interactive TUI config**: Run the config script to pick your panel models via a visual checklist (requires `gum`).
-- **Custom API support**: Bring any external model (Claude Code, Codex, local LLMs) via API key + base URL.
-- **Multi-agent fan-out**: Spawns parallel subagents across Gemini, Claude, GPT-OSS, etc.
-- **Judge synthesis**: Identifies consensus, contradictions, unique insights, and blind spots across all responses.
-- **Per-model telemetry**: Every run ends with a ✅/❌ health table showing exactly what happened.
+- **Skill-based invocation**: Just type `/fusion` followed by your prompt. Works universally across CLIs.
+- **Cross-CLI Support**: Seamlessly works inside Antigravity, Claude Code, and Codex CLI.
+- **Interactive First-Run Setup**: The agent will automatically ask you to define your custom model panel on your first run.
+- **Bring Your Own Judge**: The "Judge Model" is simply the model you currently have active in your CLI. Want Claude to judge Gemini and GPT? Just set Claude as your active model before running `/fusion`!
+- **Multi-agent fan-out**: Spawns parallel subagents across the models you select.
+- **Markdown Synthesis**: Saves the final God-tier synthesis directly to `synthesis.md` in your current directory, keeping your chat clean.
+- **Per-model telemetry**: Every run ends with a ✅/❌ health table showing exactly what happened in the chat.
 
 ## 📊 Why Fusion Works
 
@@ -17,64 +19,50 @@ OpenRouter's DRACO benchmark proved that panels of models consistently outperfor
 
 ![DRACO benchmark scores](https://openrouter.ai/blog/images/blog/fusion-benchmark-chart.png)
 
-![Score vs cost](https://openrouter.ai/blog/images/blog/fusion-benchmark-cost.png)
-
 ## 🚀 Installation
 
+Because Fusion is purely prompt-and-skill-driven, you can install it into any modern agentic CLI.
+
+### For Antigravity CLI
 ```bash
 git clone https://github.com/ProxyAyush/antigravity-fusion-plugin.git
 agy plugin install ./antigravity-fusion-plugin
 ```
 
+### For Claude Code
+Claude Code automatically scans `SKILL.md` files in your `.claude/skills` directory.
+```bash
+mkdir -p ~/.claude/skills/fusion
+curl -o ~/.claude/skills/fusion/SKILL.md https://raw.githubusercontent.com/ProxyAyush/antigravity-fusion-plugin/master/skills/fusion.md
+```
+
+### For Codex CLI
+Codex CLI automatically scans `SKILL.md` files in your `.codex/skills` directory.
+```bash
+mkdir -p ~/.codex/skills/fusion
+curl -o ~/.codex/skills/fusion/SKILL.md https://raw.githubusercontent.com/ProxyAyush/antigravity-fusion-plugin/master/skills/fusion.md
+```
+
 ## 📖 Usage
 
-### Quick start
-Just type this in any Antigravity chat:
+### First Run
+Type `/fusion hello` in your chat. The agent will detect that you haven't set up your panel yet and will ask you:
+> *"Welcome to Fusion! What models do you want to include in your panel? Please give me a list of models available in your CLI."*
+
+Reply with your models (e.g., "Claude 3.5 Sonnet, GPT-4o, Gemini 1.5 Pro"). The agent will save these preferences globally.
+
+### Running Fusion
+Simply type `/fusion` followed by your prompt:
 ```
-use fusion: What's the best architecture for a Solarpunk game engine?
+/fusion What's the best architecture for a Solarpunk game engine?
 ```
 
-### Configure your panel
-Run the TUI to pick which models are in your panel:
-```bash
-bash ~/.gemini/config/plugins/openrouter-fusion-local/scripts/configure_panel.sh
-```
-
-Or manually edit `~/.antigravity/state/fusion_panel_prefs.txt` (one model per line):
-```
-gemini-3.5-flash
-claude-sonnet-4.5
-gpt-oss
-```
-
-### Add a custom API model
-Run the TUI and select `+ Add Custom API Model...` to enter a model name, base URL, and API key for any external provider.
-
-### Telemetry
-Every fusion run ends with a per-model health table:
-```
-⚙️ Fusion Telemetry
-| Step               | Status | Details                              |
-|--------------------|--------|--------------------------------------|
-| Panel Config       | ✅     | 3 models loaded from prefs           |
-| gemini-3.5-flash   | ✅     | Subagent returned (1.2s)             |
-| claude-sonnet-4.5  | ✅     | Subagent returned (2.4s)             |
-| gpt-oss            | ❌     | Timeout after 30s                    |
-| Judge Analysis     | ✅     | Consensus on 4 points, 1 contradiction |
-| Final Synthesis    | ✅     | Grounded in 2/3 responses            |
-```
-
-The last 5 runs are stored in `~/.antigravity/state/fusion_telemetry.log`.
-
-## 🛠 Structure
-```
-antigravity-fusion-plugin/
-├── plugin.json
-├── skills/
-│   └── fusion.md             # The orchestrator skill
-└── scripts/
-    └── configure_panel.sh    # Interactive TUI for model selection
-```
+The agent will:
+1. Print a spinning banner showing your panel spinning up.
+2. Spawn parallel subagents for each model.
+3. Judge & synthesize their responses.
+4. Output a **per-model telemetry table** in the chat.
+5. Save the final deep analysis to `synthesis.md` in your current folder.
 
 ## 📚 References
 - [OpenRouter Fusion API Docs](https://openrouter.ai/docs/guides/features/plugins/fusion)

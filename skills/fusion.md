@@ -16,12 +16,16 @@ First, check if `~/.antigravity/state/fusion_panel_prefs.txt` exists and has con
 
 Also check if `~/.antigravity/state/fusion_custom_model.json` exists. If it does, read it and include it as an additional panel member.
 
-**Before doing anything else**, print the active panel to the user:
+**Before doing anything else**, print this exact banner to the user so they immediately know fusion is running, not a single model:
+
 ```
-🧠 Fusion Panel Active:
-  → Gemini 3.5 Flash (High)
-  → Gemini 3.1 Pro (High)
-  → Claude Opus 4.6 (Thinking)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🧠 FUSION ENGINE — Multi-Model Synthesis
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  🔄 Gemini 3.5 Flash (High)    — spinning up…
+  🔄 Gemini 3.1 Pro (High)      — spinning up…
+  🔄 Claude Opus 4.6 (Thinking) — spinning up…
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
 ### 1. Panel Fan-Out (Dynamic Subagents)

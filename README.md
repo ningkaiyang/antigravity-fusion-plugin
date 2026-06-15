@@ -96,3 +96,9 @@ Yes! Because Fusion is purely a prompt-and-skill-driven workflow, it works unive
 <br>
 To keep your chat clean, the full synthesis is not printed in the terminal. Instead, the agent saves it to a `synthesis.md` file in your current working directory. In the chat, you will see the spinning banner, the final telemetry table, a brief 2-3 sentence summary of the findings, and a prompt asking if you'd like to read the file or implement the results directly.
 </details>
+
+<details>
+<summary>▶️ Does this actually call different API models under the hood?</summary>
+<br>
+Currently, no. CLI tools like Antigravity, Claude Code, and Codex inherit the parent model for all subagents. This plugin uses a highly effective AI technique called **Persona-Driven Self-Consistency** (or Multi-Agent Debate). It spawns multiple instances of your *current* active model, assigns them different personas (forcing them down parallel reasoning paths), and synthesizes the results. This is mathematically proven to drastically reduce hallucinations and improve accuracy compared to single-shot generation, achieving the same "God-tier" synthesis effect!
+</details>

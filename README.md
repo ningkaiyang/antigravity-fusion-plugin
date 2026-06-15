@@ -2,7 +2,6 @@
 
 Multi-model fusion for the Antigravity CLI. Fan out your prompt to a panel of models, synthesize the best answer, get per-model telemetry. Inspired by [OpenRouter's Fusion](https://openrouter.ai/docs/guides/features/plugins/fusion).
 
-![Surpassing Frontier Performance with Fusion](https://openrouter.ai/blog/images/blog/fusion-benchmark.jpg)
 
 ## 🌟 Features
 - **Skill-based invocation**: Just type `use fusion` or `/fusion` followed by your prompt — no model switching needed.

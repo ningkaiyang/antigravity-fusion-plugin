@@ -1,30 +1,26 @@
-# Universal Fusion Plugin
+# gavel 👨‍⚖️
 
-Multi-model fusion which achieves Claude Fable 5 level performance for Antigravity, Claude Code, and Codex CLI. Fan out your prompt to a panel of models, synthesize the best answer, get per-model telemetry, and receive a compiled `synthesis.md` file . Inspired by [OpenRouter's Fusion](https://openrouter.ai/docs/guides/features/plugins/fusion).
-> *"The more tokens you throw at SOTA models, the better the answer.*
+Multi-model fusion for Antigravity, Claude Code, and Codex CLI. Ask Claude/Antigravity + Codex + Gemini in parallel, then judge their answers into one and act on it.
+
+> *“The more tokens you throw at SOTA models, the better the answer.*
 > *Cast your prompt into a solitary mind, and you receive a mere response.*
-> *But weave a million tokens across a chorus of State-of-the-Art intellects, and you uncover the truth."*
+> *But weave a million tokens across a chorus of State-of-the-Art intellects, and you uncover the truth.”*
 
 ![DRACO benchmark scores](1781544730189.png)
 
 [📸 View an Example Run in the CLI](IMG_20260615_185839.jpg)
 
-## 🌟 Features
-- **Skill-based invocation**: Just type `/fusion` followed by your prompt. Works universally across CLIs.
-- **Cross-CLI Support**: Seamlessly works inside Antigravity, Claude Code, and Codex CLI.
-- **Interactive First-Run Setup**: The agent will automatically ask you to define your custom model panel on your first run.
-- **Bring Your Own Judge**: The "Judge Model" is simply the model you currently have active in your CLI. Want Claude to judge Gemini and GPT? Just set Claude as your active model before running `/fusion`!
-- **Multi-agent fan-out**: Spawns parallel subagents across the models you select.
-- **Markdown Synthesis**: Saves the final God-tier synthesis directly to `synthesis.md` in your current directory, keeping your chat clean.
-- **Per-model telemetry**: Every run ends with a ✅/❌ health table showing exactly what happened in the chat.
+---
 
-## 📊 Why Fusion Works
+## 🌟 Inspiration
 
-OpenRouter's DRACO benchmark proved that panels of models consistently outperform individual models — even budget panels beat frontier models.
+Gavel is inspired by OpenRouter's [**Fusion beats Frontier**](https://openrouter.ai/blog/announcements/fusion-beats-frontier/): dispatch a prompt to a panel of models, then have a judge synthesize their answers into one response that beats any single frontier model. Gavel brings that pattern to local agentic CLIs. Codex and Gemini answer as read-only advisors, and their answers are judged and fused into one before the main model acts on it.
+
+---
 
 ## 🚀 Installation
 
-Because Fusion is purely prompt-and-skill-driven, you can install it into any modern agentic CLI.
+Because Gavel is purely prompt-and-skill-driven, you can install it into any modern agentic CLI.
 
 ### For Antigravity CLI
 ```bash
@@ -33,72 +29,123 @@ agy plugin install ./antigravity-fusion-plugin
 ```
 
 ### For Claude Code
-Claude Code automatically scans `SKILL.md` files in your `.claude/skills` directory.
 ```bash
-mkdir -p ~/.claude/skills/fusion
-curl -o ~/.claude/skills/fusion/SKILL.md https://raw.githubusercontent.com/ProxyAyush/antigravity-fusion-plugin/master/skills/fusion/SKILL.md
+/plugin marketplace add /path/to/antigravity-fusion-plugin
+/plugin install gavel@gavel
 ```
 
 ### For Codex CLI
-Codex CLI automatically scans `SKILL.md` files in your `.codex/skills` directory.
 ```bash
-mkdir -p ~/.codex/skills/fusion
-curl -o ~/.codex/skills/fusion/SKILL.md https://raw.githubusercontent.com/ProxyAyush/antigravity-fusion-plugin/master/skills/fusion/SKILL.md
+/plugin marketplace add /path/to/antigravity-fusion-plugin
+/plugin install gavel@gavel
 ```
 
-## 📖 Usage
+---
 
-### First Run
-Type `/fusion hello` in your chat. The agent will detect that you haven't set up your panel yet and will ask you:
-> *"Welcome to Fusion! What models do you want to include in your panel? Please give me a list of models available in your CLI."*
+## ⚡ Quick Start & Setup
 
-Reply with your models (e.g., "Claude 3.5 Sonnet, GPT-4o, Gemini 1.5 Pro"). The agent will save these preferences globally.
+Run the setup command to check if Codex and Gemini CLIs are installed, authenticated, and recent enough:
 
-### Running Fusion
-Simply type `/fusion` followed by your prompt:
-```
-/fusion What's the best architecture for a Solarpunk game engine?
+```bash
+/gavel:setup
 ```
 
-The agent will:
-1. Print a spinning banner showing your panel spinning up.
-2. Spawn parallel subagents for each model.
-3. Judge & synthesize their responses.
-4. Output a **per-model telemetry table** in the chat.
-5. Save the final deep analysis to `synthesis.md` in your current folder.
+It will offer to install whatever is missing. Authentication steps:
+- **Codex** — `!codex login` (install: `npm install -g @openai/codex`).
+- **Gemini** — run `!gemini` once to log in (OAuth), or `export GEMINI_API_KEY=…` (install: `npm install -g @google/gemini-cli`).
 
-## 📚 References
-- [OpenRouter Fusion API Docs](https://openrouter.ai/docs/guides/features/plugins/fusion)
-- [Fusion Beats Frontier Benchmark](https://openrouter.ai/blog/announcements/fusion-beats-frontier/)
+Gavel needs **at least one** advisor usable, but works best with both.
+
+---
+
+## 📖 Commands
+
+| Command | What it does |
+| --- | --- |
+| `/gavel:fuse <task>` | Ask Claude/Antigravity + Codex + Gemini in parallel, synthesize one fused answer, then act on it. |
+| `/gavel:ask <codex\|gemini> <prompt>` | Send a prompt to a single model and show its answer verbatim (no fusing, no edits). |
+| `/gavel:setup` | Check/install/auth the Codex and Gemini CLIs. |
+| `/gavel:config [show \| set <key> <value> \| unset <key>]` | View or change settings (model, timeout, panel) in the user or `--project` config file. |
+
+---
+
+## 🔒 How advisors stay read-only
+
+Only the main model (Claude or Antigravity) modifies your workspace. The advisors are constrained because their CLIs differ:
+- **Codex** runs in your project under its OS read-only sandbox (`-s read-only`) — a hard boundary: it reads your code but cannot change it.
+- **Gemini** has no equivalent read-only sandbox, so Gavel runs it **isolated**: in a throwaway directory with `PWD`/`OLDPWD`/`INIT_CWD` scrubbed, so it cannot discover your repo path or make relative writes. It answers from the task text — include any code/context Gemini should see directly in your task.
+- Prompts are passed via a temp file and reach each CLI on **stdin**, never through the shell or process arguments (preventing command injection).
+
+---
+
+## ⚙️ Configuration
+
+Easiest way to change settings is the `config` command:
+
+```bash
+/gavel:config show                       # Show effective settings
+/gavel:config set timeout 600            # Set 10-minute timeout for all projects
+/gavel:config set codex.model gpt-5.5    # Pin a specific model
+/gavel:config set gemini.model gemini-2.5-pro --project   # Pin model for this repo only
+/gavel:config unset codex.model          # Restore the preferred default
+```
+
+Or edit the file directly (`~/.gavel/config.json` for user, `./.gavel.json` for project):
+
+```json
+{
+  "providers": {
+    "codex":  { "enabled": true, "model": "gpt-5.5-pro" },
+    "gemini": { "enabled": true, "model": "gemini-3.1-pro" }
+  },
+  "panel": ["codex", "gemini"],
+  "timeout": 1800
+}
+```
+
+---
 
 ## ❓ FAQ
 
 <details>
 <summary>▶️ Who is the judge model and how can I change it?</summary>
 <br>
-The Judge Model is simply the model you currently have active in your CLI window when you run the `/fusion` command. To change the judge model, just switch your active model in the CLI before invoking fusion. For example, if you want Claude to judge Gemini and GPT, just select Claude as your active CLI model!
+The Judge Model is simply the model you currently have active in your CLI window when you run the `/gavel:fuse` command. To change the judge model, just switch your active model in the CLI before invoking fusion. For example, if you want Claude to judge Gemini and GPT, just select Claude as your active CLI model!
 </details>
 
 <details>
 <summary>▶️ How can I easily change the models inside the fusion panel?</summary>
 <br>
-On your first run, the agent will ask you to set up your panel. If you want to change them later, you can simply edit the `~/.fusion_panel_prefs.txt` file and update the list of models (one per line). Alternatively, just delete that file and the agent will prompt you to set them up again on your next run.
+You can easily adjust settings using the `/gavel:config set` command or edit `~/.gavel/config.json`. If you want to configure which CLIs are queried, update the `"panel"` array in the config file.
 </details>
 
 <details>
 <summary>▶️ Can this be used in other CLIs like Claude Code and Codex?</summary>
 <br>
-Yes! Because Fusion is purely a prompt-and-skill-driven workflow, it works universally. See the Installation section above for instructions on how to drop the `SKILL.md` file into your CLI of choice.
+Yes! Gavel is fully compatible with Claude Code, Codex, and Antigravity. It registers standard slash commands and runs completely locally using standard plugin mechanisms.
 </details>
 
 <details>
 <summary>▶️ Where does the final synthesized answer go?</summary>
 <br>
-To keep your chat clean, the full synthesis is not printed in the terminal. Instead, the agent saves it to a `synthesis.md` file in your current working directory. In the chat, you will see the spinning banner, the final telemetry table, a brief 2-3 sentence summary of the findings, and a prompt asking if you'd like to read the file or implement the results directly.
+To keep your chat clean, the full synthesis is saved to `synthesis.md` in your current working directory. In the chat, you will see a brief telemetry table, a 2-3 sentence summary of the final results, and a prompt asking if you'd like to read the file or implement the results directly.
 </details>
 
 <details>
 <summary>▶️ Does this actually call different API models under the hood?</summary>
 <br>
-Yes! To bypass the limitation of CLIs inheriting parent models, the Fusion skill acts as a meta-orchestrator. Instead of spawning native subagents, the Judge model dynamically spawns completely detached background bash processes of your host CLI (e.g. `agy --model [X]` or `claude -m [X]`). This forces the CLI to spin up entirely separate, fully-agentic instances hitting completely different API endpoints, waits for them to finish, and synthesizes their output files.
+Yes! To bypass the limitations of CLI subagents inheriting the parent model, Gavel spins up actual background processes of the independent advisor CLIs (`codex` and `gemini`) in parallel. This forces separate agentic runs to execute under different model configurations/endpoints, which are then read and synthesized by the Judge.
 </details>
+
+---
+
+## 🧪 Testing
+
+Run the deterministic test suite:
+```bash
+bash scripts/smoke-test.sh
+```
+
+## 📄 License
+
+MIT — see [LICENSE](./LICENSE).

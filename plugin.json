@@ -1,5 +1,9 @@
 {
-  "name": "openrouter-fusion-local",
-  "version": "1.1.0",
-  "description": "Native Multi-Model Fusion Panel — invoke with /fusion or 'use fusion'"
+  "name": "gavel",
+  "version": "0.3.0",
+  "description": "Fuse the Claude Code / Antigravity model with OpenAI Codex and Google Gemini: query all three in parallel, then the model judges, synthesizes, and acts.",
+  "author": { "name": "Dr. Ayush Yadav", "email": "ayushiamazon1@gmail.com" },
+  "homepage": "https://github.com/ProxyAyush/antigravity-fusion-plugin",
+  "repository": "https://github.com/ProxyAyush/antigravity-fusion-plugin",
+  "license": "MIT"
 }

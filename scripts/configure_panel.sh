@@ -11,12 +11,15 @@ echo "-----------------------------------"
 
 # Render the interactive TUI checklist
 SELECTED_MODELS=$(gum choose --no-limit --cursor=">" \
+  --selected="Gemini 3.5 Flash (High),Gemini 3.1 Pro (High),Claude Opus 4.6 (Thinking)" \
   --header="Select the models you want in your panel (Space to select, Enter to confirm):" \
-  "gemini-3.5-flash" \
-  "gemini-3-pro" \
-  "claude-sonnet-4.5" \
-  "gpt-oss" \
-  "deepseek-coder" \
+  "Gemini 3.5 Flash (High)" \
+  "Gemini 3.5 Flash (Low)" \
+  "Gemini 3.1 Pro (High)" \
+  "Gemini 3.1 Pro (Low)" \
+  "Claude Sonnet 4.6 (Thinking)" \
+  "Claude Opus 4.6 (Thinking)" \
+  "GPT-OSS 120B (Medium)" \
   "+ Add Custom API Model...")
 
 mkdir -p ~/.antigravity/state/
@@ -30,7 +33,6 @@ if echo "$SELECTED_MODELS" | grep -q "+ Add Custom API Model..."; then
     CUSTOM_API_URL=$(gum input --placeholder "Enter API Base URL (e.g., https://api.openai.com/v1)...")
     CUSTOM_API_KEY=$(gum input --password --placeholder "Enter API Key...")
 
-    # Save custom model config
     cat <<EOF > ~/.antigravity/state/fusion_custom_model.json
 {
   "model_name": "$CUSTOM_MODEL_NAME",
@@ -41,14 +43,16 @@ EOF
     echo ""
     gum style --foreground 212 "✅ Custom API Model '$CUSTOM_MODEL_NAME' saved!"
 else
-    # clear custom model config if not selected to avoid stale data
     rm -f ~/.antigravity/state/fusion_custom_model.json
 fi
 
+# Clean the custom model line from prefs
+sed -i '/+ Add Custom API Model.../d' ~/.antigravity/state/fusion_panel_prefs.txt
+
 echo ""
 gum style --foreground 212 "✅ Fusion Panel successfully updated!"
-gum style --foreground 240 "Active subagents:"
-echo "$SELECTED_MODELS" | grep -v "+ Add Custom API Model..."
+gum style --foreground 240 "Active panel:"
+cat ~/.antigravity/state/fusion_panel_prefs.txt
 if [ -f ~/.antigravity/state/fusion_custom_model.json ]; then
     echo "$CUSTOM_MODEL_NAME (Custom API)"
 fi

@@ -1,4 +1,4 @@
-# Universal Fusion Plugin 🧠
+# Antigravity-Specific Fusion Plugin 🧠
 
 Multi-model fusion for Google Antigravity CLI. Ask multiple models (e.g. Gemini 3.5 Flash, Gemini 3.1 Pro, etc.) in parallel, then judge their answers into one and act on it.
 
@@ -22,11 +22,13 @@ Fusion is inspired by OpenRouter's [**Fusion beats Frontier**](https://openroute
 
 Because Fusion is purely prompt-and-skill-driven, you can install it into any modern agentic CLI.
 
-For Antigravity CLI:
+For Antigravity CLI and all Antigravity products (2.0 & IDE):
 ```bash
 git clone https://github.com/ningkaiyang/antigravity-fusion-plugin.git
 agy plugin install ./antigravity-fusion-plugin
 ```
+
+Note: You must have Antigravity CLI installed, but then the skill is usable across all Antigravity apps. Works best in Antigravity 2.0 and CLI (IDE has some issues with long response output logs).
 
 ---
 
@@ -35,20 +37,20 @@ agy plugin install ./antigravity-fusion-plugin
 Run the setup command to check available models and configure your panel:
 
 ```bash
-/fusion:setup
+/fusion setup
 ```
 
 It will detect available models and help you configure your preference file: `~/.fusion_panel_prefs.txt`.
 
 ---
 
-## 📖 Commands
+## 📖 Commands - These are all agent-processed under /fusion, so you can be a bit free in your syntax :P
 
 | Command | What it does |
 | --- | --- |
 | `/fusion <task>` | Ask multiple models in parallel, synthesize one fused answer, then act on it. |
-| `/fusion:setup` | Check available models in your CLI and verify preferences. |
-| `/fusion:config [show \| set <models>]` | View or change settings (model panel configuration) in your preference file. |
+| `/fusion setup` | Check available models in your CLI and verify preferences. |
+| `/fusion config [show \| set <models>]` | View or change settings (model panel configuration) in your preference file. |
 
 *To invoke fusion quickly, simply type `/fusion` followed by your prompt!*
 
@@ -62,11 +64,11 @@ Only the main model (the active CLI session) modifies your workspace. Subagent p
 
 ## ⚙️ Configuration
 
-Easiest way to change settings is the `config` command:
+Easiest way to change settings is the `config` subcommand:
 
 ```bash
-/fusion:config show                       # Show configured models
-/fusion:config set Gemini 3.5 Flash (High), Gemini 3.1 Pro (High) # Overwrite preferences
+/fusion config show                       # Show configured models
+/fusion config set Gemini 3.5 Flash (High), Gemini 3.1 Pro (High) # Overwrite preferences
 ```
 
 Or edit the file directly (`~/.fusion_panel_prefs.txt`):
@@ -93,7 +95,7 @@ The Judge Model is simply the model you currently have active in your CLI window
 <details>
 <summary>▶️ How can I easily change the models inside the fusion panel?</summary>
 <br>
-You can easily adjust settings using the `/fusion:config set` command or edit `~/.fusion_panel_prefs.txt`.
+You can easily adjust settings using the `/fusion config set` command or edit `~/.fusion_panel_prefs.txt`.
 </details>
 
 
@@ -121,10 +123,10 @@ MIT — see [LICENSE](./LICENSE).
 
 ## Star History
 
-<a href="https://www.star-history.com/?repos=ProxyAyush%2Fantigravity-fusion-plugin&type=date&legend=top-left">
+<a href="https://www.star-history.com/?repos=ningkaiyang%2Fantigravity-fusion-plugin&type=date&legend=top-left">
  <picture>
-   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=ProxyAyush/antigravity-fusion-plugin&type=date&theme=dark&legend=top-left" />
-   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=ProxyAyush/antigravity-fusion-plugin&type=date&legend=top-left" />
-   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=ProxyAyush/antigravity-fusion-plugin&type=date&legend=top-left" />
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=ningkaiyang/antigravity-fusion-plugin&type=date&theme=dark&legend=top-left" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=ningkaiyang/antigravity-fusion-plugin&type=date&legend=top-left" />
+   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=ningkaiyang/antigravity-fusion-plugin&type=date&legend=top-left" />
  </picture>
 </a>

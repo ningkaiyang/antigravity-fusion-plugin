@@ -121,7 +121,7 @@ async function cmdFuse(opts) {
   // Spawn subprocesses in parallel
   const results = await Promise.all(prefs.map(async (model) => {
     // Inject system instructions to keep it read-only
-    const decoratedPrompt = `[SYSTEM INSTRUCTION: You are ${model}, a read-only advisor in a multi-model panel. Do NOT edit any files, write to the workspace, or run commands. Simply provide your best answer/analysis for the task below.]\n\nTask:\n${prompt}`;
+    const decoratedPrompt = `[SYSTEM INSTRUCTION: You are ${model}, a READ-ONLY advisor in a multi-model panel of planners. **DO NOT** edit any files, **DO NOT** write to the workspace, and **DO NOT** run modifying commands. Simply provide your best answer/analysis for the task below.]\n\nTask:\n${prompt}`;
     
     const args = ["--model", model, "--print", decoratedPrompt];
 

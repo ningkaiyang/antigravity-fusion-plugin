@@ -114,7 +114,7 @@ If the panel is empty or all models error out, continue with your independent dr
 > [!IMPORTANT]
 > Because parallel model outputs can be very large, the system notification showing the command's completion may truncate the output. **You must always read the full task log file using the `view_file` tool** (using the log path printed in the system notification, e.g. `file:///.../tasks/task-XX.log`) to review the complete advisor answers before applying the **Fusion Synthesis (Judge Contract)**.
 
-Fulfill the contract and save the final synthesis directly to `synthesis.md` in the current directory.
+Fulfill the contract and save the final synthesis as an artifact named `synthesis.md`.
 
 **4. Present & act.** Output the **Telemetry block**, a short summary, and a follow-up question. Format exactly like this:
 
@@ -126,12 +126,12 @@ Fulfill the contract and save the final synthesis directly to `synthesis.md` in 
 | [Model 1] | ✅ | Subagent returned |
 | [Model 2] | ✅ | Subagent returned |
 | Judge Analysis | ✅ | Consensus on X points, Y contradictions |
-| Final Synthesis | ✅ | Saved to synthesis.md |
+| Final Synthesis | ✅ | Saved to synthesis.md artifact |
 
-**The final synthesis has been saved to `synthesis.md`.** 
+**The final synthesis has been saved as the `synthesis.md` artifact.** 
 *[Provide a 2-3 sentence high-level summary of the final results here]*
 
-**Would you like me to pull up and read the full `synthesis.md` for you, or should I go ahead and implement these results?**
+**Would you like me to pull up and read the full `synthesis.md` artifact for you, or should I go ahead and implement these results?**
 ---
 
 Delete the temp draft and prompt files. Then **take the appropriate action** grounded in the fused answer — make the edits, run the commands, or deliver the final response.

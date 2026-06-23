@@ -102,10 +102,10 @@ You can easily adjust settings using the `/fusion config set` command or edit `~
 <details>
 <summary>▶️ Where does the final synthesized answer go?</summary>
 <br>
-To keep your chat clean, the full synthesis is saved to a `synthesis.md` file in your current working directory. In the chat, you will see a telemetry table showing step-by-step model status (responses vs errors), followed by a 2-3 sentence high-level summary of the findings. The agent will then ask: 
+To keep your chat clean, the full synthesis is saved as a `synthesis.md` artifact in your conversation directory. In the chat, you will see a telemetry table showing step-by-step model status (responses vs errors), followed by a 2-3 sentence high-level summary of the findings. The agent will then ask: 
 *“Would you like me to pull up and read the full synthesis.md for you, or should I go ahead and implement these results?”*
 
-If you choose to read, the agent will load and show `synthesis.md` using its viewing tools. If you choose to implement, the agent will proactively start writing files and executing commands based on the panel's consensus.
+If you choose to read, the agent will load and show the `synthesis.md` artifact using its viewing tools. If you choose to implement, the agent will proactively start writing files and executing commands based on the panel's consensus.
 </details>
 
 <details>

@@ -80,11 +80,11 @@ You are running a multi-model fusion for this request. You are the **judge and t
 
 Follow these steps in order:
 
-**1. Your independent draft (blind — before the panel).** Form your **own complete answer first**, with no knowledge of what the panel will say. Read whatever repo context you need, then use the **Write tool** to save your full answer to a fresh temp file, e.g. `/tmp/fusion-draft-<timestamp>.md`. This file is **your committed panelist submission**: it must stand on its own and include your recommendation, key claims, assumptions, risks, and concrete next actions. **DO NOT** edit the workspace yet, and **DO NOT** revise this draft after seeing the panel.
+**1. Your independent draft (blind — before the panel).** Form your **own complete answer first**, with no knowledge of what the panel will say. Read whatever repo context you need, then use the **Write tool** to save your full answer to a fresh file in your conversation's scratch directory, e.g. `<appDataDir>/brain/<conversation-id>/scratch/fusion-draft-<timestamp>.md` (replace `<appDataDir>/brain/<conversation-id>/` with your actual conversation path as found in the system prompt under Artifacts). This file is **your committed panelist submission**: it must stand on its own and include your recommendation, key claims, assumptions, risks, and concrete next actions. **DO NOT** edit the workspace yet, and **DO NOT** revise this draft after seeing the panel.
 
 **2. Consult the panel.** Get the task to the advisors:
-- Analyze the user's prompt and write a specific, optimized prompt for the panel. Instead of just copying the user's prompt directly, capture its meaning but optimize it so the subagents know exactly where to look (relevant files/context) and are primed to give good, additional info, checks, or alternative perspectives. Encourage the subagents to explore and gather lots of data before starting reasoning. Use the **Write tool** to save this optimized prompt to a fresh temp file with a unique name, e.g. `/tmp/fusion-prompt-<timestamp>.txt`. Delete it afterward.
-- Run the node script to query the panel. Simply execute the command and wait for it to return, or if launched asynchronously, end your turn and wait for the system to automatically notify you when the background task completes. **DO NOT** poll, check processes, or set manual timers. It will finish on its own.
+- Analyze the user's prompt and write a specific, optimized prompt for the panel. Instead of just copying the user's prompt directly, capture its meaning but optimize it so the subagents know exactly where to look (relevant files/context) and are primed to give good, additional info, checks, or alternative perspectives. Encourage the subagents to explore and gather lots of data before starting reasoning. Use the **Write tool** to save this optimized prompt to a fresh file in your conversation's scratch directory with a unique name, e.g. `<appDataDir>/brain/<conversation-id>/scratch/fusion-prompt-<timestamp>.txt` (replace `<appDataDir>/brain/<conversation-id>/` with your actual conversation path).
+- Run the node script to query the panel. Simply execute the command and wait for it to return, or if launched asynchronously, end your turn and wait for the system to automatically notify you when the background task completes. **DO NOT** poll, check processes, or set manual timers. It will finish on its own once the subagents respond.
 
 ```bash
 FUSION_SCRIPT=""
@@ -104,7 +104,7 @@ if [ -z "$FUSION_SCRIPT" ]; then
   echo "Error: fusion.mjs not found!"
   exit 1
 fi
-node "$FUSION_SCRIPT" fuse --cwd "$(pwd)" --prompt-file /tmp/fusion-prompt-XXXX.txt
+node "$FUSION_SCRIPT" fuse --cwd "$(pwd)" --prompt-file "<appDataDir>/brain/<conversation-id>/scratch/fusion-prompt-XXXX.txt"
 ```
 
 If the panel is empty or all models error out, continue with your independent draft and inform the user they can run `/fusion setup`.
@@ -134,7 +134,7 @@ Fulfill the contract and save the final synthesis as an artifact named `synthesi
 **Would you like me to pull up and read the full `synthesis.md` artifact for you, or should I go ahead and implement these results?**
 ---
 
-Delete the temp draft and prompt files. Then **take the appropriate action** grounded in the fused answer — make the edits, run the commands, or deliver the final response.
+Then **take the appropriate action** grounded in the fused answer — make the edits, run the commands, or deliver the final response.
 
 
 ---
@@ -142,7 +142,7 @@ Delete the temp draft and prompt files. Then **take the appropriate action** gro
 ## ⚖️ Fusion Synthesis (Judge Contract)
 
 You are the **Judge** in `/fusion`. You fuse:
-1. **your own independent draft** (written to a temp file in step 1, *before* you saw the panel),
+1. **your own independent draft** (written to your conversation scratch directory in step 1, *before* you saw the panel),
 2. **the panel outputs** from the other models.
 
 Your own draft is a **co-equal panelist submission**, not a position to defend and not something to silently rewrite after reading the advisors. Your job is to fuse all answers into one definitive answer you then act on.
